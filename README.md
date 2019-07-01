@@ -14,11 +14,11 @@ Your assignment is to create a simple Reddit client that shows the top 50 entrie
 To do this please follow these guidelines:
 
     - Assume the latest platform and use Kotlin
-    - Use UITableView / UICollectionView to arrange the data.
-    - Please refrain from using any dependency manager [cocoapods / carthage / etc], instead, use URLSession
+    - Follow one of design patterns to create flexible and scalable app (i.e. MVVM/MVP/MVC)
+    - Use Retrofit/GSON and Kotlin data classes for working with API
+    - Use Android Jetpack components (e.g. AppCompat, ViewModel, LiveData, Paging etc.)
+    - Use RecyclerView and ConstraintLayout to arrange the data and provide flexible UI
     - Support all Device Orientation
-    - Support all Devices screen (You can ignore iPad, just for all iPhones)
-    - Use Layout by Code (Don't use storyboards or xib files)
 
 ## What to show
 The app should be able to show data from each entry such as:
@@ -47,10 +47,10 @@ In addition, for those having a picture (besides the thumbnail), please allow th
 
     - Reddit API: (Please read from 10 to 10 on each so we can see how you handle pagination.)
     GET: https://www.reddit.com/r/all/top/.json?t=all&limit=10
-    
+
     In each page you will have an "after" key and "before" so you can read the key "after" and append it to the url like so to get the next 10 posts.
     https://www.reddit.com/r/all/top/.json?t=all&limit=10&after={{value_of_after_key}}
-     
+
     - Example JSON file (top.json) is listed.
     - Example Video of functionality is attached
 
