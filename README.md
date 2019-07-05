@@ -41,7 +41,6 @@ In addition, for those having a picture (besides the thumbnail), please allow th
     - Indicator of unread/read post (updated status, after post it’s selected)
     - Dismiss Post Button (remove the cell from list. Animations required)
     - Dismiss All Button (remove all posts. Animations required)
-    - Ignore iPad do it just for iPhone. (So the list and the detail view)
 
 ## Resources
 
