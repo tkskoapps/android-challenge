@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tkskoapps.redditclient.R
-import com.tkskoapps.redditclient.data.model.PostDataModel
 import com.tkskoapps.redditclient.data.model.PostModel
 import kotlinx.android.synthetic.main.list_item_post.view.*
 
@@ -32,10 +31,17 @@ class PostsAdapter(
 
         items[position].let { post ->
 
-            holder.bindCardData(post.postData)
+            holder.bindCardData(post)
 
             holder.itemView.list_item_post_main_layout.setOnClickListener {
+
+                if (!post.read) {
+                    post.read = true
+                    notifyItemChanged(position)
+                }
+
                 listener?.onPostSelected(post)
+
             }
 
         }
@@ -70,20 +76,24 @@ class PostsAdapter(
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindCardData(post: PostDataModel) {
+        fun bindCardData(post: PostModel) {
 
-            Glide.with(itemView.context).load(post.thumbnail).placeholder(R.drawable.empty_placeholder)
-                .into(itemView.list_item_post_thumbnail)
+            post.postData.let { postData ->
 
-            itemView.list_item_post_title.text = post.title
+                Glide.with(itemView.context).load(postData.thumbnail).placeholder(R.drawable.empty_placeholder)
+                    .into(itemView.list_item_post_thumbnail)
 
-            itemView.list_item_post_author.text = post.author
+                itemView.list_item_post_title.text = postData.title
 
-            itemView.list_item_post_time_ago.text = "TODO"
+                itemView.list_item_post_author.text = postData.author
 
-            itemView.list_item_post_comments_count.text = post.commentsCount.toString()
+                itemView.list_item_post_time_ago.text = "TODO"
 
-            itemView.list_item_post_read_status.visibility = View.VISIBLE
+                itemView.list_item_post_comments_count.text = postData.commentsCount.toString()
+
+            }
+
+            itemView.list_item_post_read_status.visibility = if (post.read) View.GONE else View.VISIBLE
 
         }
 

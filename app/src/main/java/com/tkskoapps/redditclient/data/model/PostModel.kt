@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class PostModel(
     @SerializedName("data")
-    val postData: PostDataModel
+    val postData: PostDataModel,
+    var read: Boolean = false
 )
