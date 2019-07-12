@@ -51,6 +51,8 @@ class PostsAdapter(
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, items.size)
 
+                listener?.onPostRemoved()
+
             }
 
         }
@@ -121,6 +123,8 @@ class PostsAdapter(
     interface IPostsListener {
 
         fun onPostSelected(post: PostModel)
+
+        fun onPostRemoved()
 
     }
 

@@ -23,7 +23,6 @@ class PostsActivity : BaseActivity() {
         val postDetailContainer: FrameLayout? = findViewById<FrameLayout>(R.id.activity_posts_frame_detail)
         landMode = postDetailContainer != null
 
-
         if (savedInstanceState == null) {
 
             postsFragments = PostsFragment.newInstance()
@@ -34,10 +33,6 @@ class PostsActivity : BaseActivity() {
             postsFragments =
                 supportFragmentManager.getFragment(savedInstanceState, "postsFragment") as PostsFragment
 
-        // Clear previous selected post in landscape mode
-        if (landMode)
-            replaceFragment(PostDetailFragment.newInstance(), R.id.activity_posts_frame_detail)
-
         getViewModel().postDetail.observe(this, Observer { data ->
             data.getContentIfNotHandled()?.let { post ->
                 if (landMode)
@@ -47,6 +42,19 @@ class PostsActivity : BaseActivity() {
             }
         })
 
+        getViewModel().clearDetail.observe(this, Observer { data ->
+            data.getContentIfNotHandled()?.let {
+                clearPostDetail()
+            }
+        })
+
+        clearPostDetail()
+
+    }
+
+    private fun clearPostDetail() {
+        if (landMode)
+            replaceFragment(PostDetailFragment.newInstance(), R.id.activity_posts_frame_detail)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

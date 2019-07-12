@@ -131,6 +131,8 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
             setEmptyViewVisibility()
 
+            postViewModel.clearDetail()
+
         }
 
     }
@@ -161,5 +163,12 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
         postViewModel.openPostDetail(post.postData)
 
     }
+
+    override fun onPostRemoved() {
+
+        postViewModel.clearDetail()
+
+    }
+
 
 }

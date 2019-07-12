@@ -29,6 +29,10 @@ class PostsViewModel(private val repository: AppRepository) :
     val postDetail: LiveData<Event<PostDataModel>>
         get() = _postDetail
 
+    private var _clearDetail = MutableLiveData<Event<Unit>>()
+    val clearDetail: LiveData<Event<Unit>>
+        get() = _clearDetail
+
     fun getPosts(pageNumber: Int, lastItemId: String? = null) {
 
         val pageSize = AppConstants.POSTS_PAGE_SIZE
@@ -65,8 +69,8 @@ class PostsViewModel(private val repository: AppRepository) :
 
     }
 
-    fun openPostDetail(post: PostDataModel) {
-        _postDetail.postValue(Event(post))
-    }
+    fun openPostDetail(post: PostDataModel) = _postDetail.postValue(Event(post))
+
+    fun clearDetail() = _clearDetail.postValue(Event(Unit))
 
 }
