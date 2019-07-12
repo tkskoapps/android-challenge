@@ -2,6 +2,7 @@ package com.tkskoapps.redditclient.ui.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.tkskoapps.redditclient.data.model.PostDataModel
 import com.tkskoapps.redditclient.data.model.PostListModel
 import com.tkskoapps.redditclient.data.repositories.AppRepository
 import com.tkskoapps.redditclient.ui.core.BaseViewModel
@@ -19,6 +20,10 @@ class PostsViewModel(private val repository: AppRepository) :
     private var _postsList = MutableLiveData<Event<PostListModel>>()
     val postsList: LiveData<Event<PostListModel>>
         get() = _postsList
+
+    private var _postDetail = MutableLiveData<Event<PostDataModel>>()
+    val postDetail: LiveData<Event<PostDataModel>>
+        get() = _postDetail
 
     fun getPosts(pageNumber: Int, lastItemId: String? = null) {
 
@@ -46,6 +51,10 @@ class PostsViewModel(private val repository: AppRepository) :
             })
         )
 
+    }
+
+    fun openPostDetail(post: PostDataModel) {
+        _postDetail.postValue(Event(post))
     }
 
 }

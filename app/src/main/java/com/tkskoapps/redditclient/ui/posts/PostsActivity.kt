@@ -1,10 +1,16 @@
 package com.tkskoapps.redditclient.ui.posts
 
 import android.os.Bundle
+import android.widget.FrameLayout
+import androidx.lifecycle.Observer
 import com.tkskoapps.redditclient.R
 import com.tkskoapps.redditclient.ui.core.BaseActivity
+import com.tkskoapps.redditclient.ui.post_detail.PostDetailActivity
+import com.tkskoapps.redditclient.ui.post_detail.PostDetailFragment
 
 class PostsActivity : BaseActivity() {
+
+    private var landMode = false
 
     private lateinit var postsFragments: PostsFragment
 
@@ -13,6 +19,10 @@ class PostsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_posts)
+
+        val postDetailContainer: FrameLayout? = findViewById<FrameLayout>(R.id.activity_posts_frame_detail)
+        landMode = postDetailContainer != null
+
 
         if (savedInstanceState == null) {
 
@@ -23,6 +33,19 @@ class PostsActivity : BaseActivity() {
         } else
             postsFragments =
                 supportFragmentManager.getFragment(savedInstanceState, "postsFragment") as PostsFragment
+
+        // Clear previous selected post in landscape mode
+        if (landMode)
+            replaceFragment(PostDetailFragment.newInstance(), R.id.activity_posts_frame_detail)
+
+        getViewModel().postDetail.observe(this, Observer { data ->
+            data.getContentIfNotHandled()?.let { post ->
+                if (landMode)
+                    replaceFragment(PostDetailFragment.newInstance(post), R.id.activity_posts_frame_detail)
+                else
+                    startActivity(PostDetailActivity.getIntent(this, post))
+            }
+        })
 
     }
 

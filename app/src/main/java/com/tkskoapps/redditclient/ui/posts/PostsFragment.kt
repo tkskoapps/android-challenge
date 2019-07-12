@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tkskoapps.redditclient.R
 import com.tkskoapps.redditclient.data.model.PostModel
 import com.tkskoapps.redditclient.ui.core.BaseFragment
-import com.tkskoapps.redditclient.ui.post_detail.PostDetailActivity
 import com.tkskoapps.redditclient.ui.utils.AppConstants
 import com.tkskoapps.redditclient.ui.utils.InfiniteOnScrollListener
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -151,9 +150,8 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
     override fun onPostSelected(post: PostModel) {
 
-        startActivity(PostDetailActivity.getIntent(activity, post.postData))
+        postViewModel.openPostDetail(post.postData)
 
     }
-
 
 }
