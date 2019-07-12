@@ -44,6 +44,14 @@ class PostsAdapter(
 
             }
 
+            holder.itemView.list_item_post_button_delete.setOnClickListener {
+
+                items.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, items.size)
+
+            }
+
         }
 
     }
@@ -71,6 +79,16 @@ class PostsAdapter(
             this.notifyItemRangeInserted(positionStart, list.size)
 
         }
+
+    }
+
+    fun clearAllPosts() {
+
+        val count = items.size
+
+        items.clear()
+
+        notifyItemRangeRemoved(0, count)
 
     }
 

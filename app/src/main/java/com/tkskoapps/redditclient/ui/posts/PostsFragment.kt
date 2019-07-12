@@ -116,6 +116,16 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
             getPage()
         }
 
+        fragment_posts_button_clean.setOnClickListener {
+
+            infiniteOnScrollListener.reset()
+
+            postsAdapter.clearAllPosts()
+
+            setEmptyViewVisibility()
+
+        }
+
     }
 
     private fun setEmptyViewVisibility() {
