@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.tkskoapps.redditclient.R
+import com.tkskoapps.redditclient.data.model.PostModel
 import com.tkskoapps.redditclient.ui.core.BaseFragment
+import com.tkskoapps.redditclient.ui.post_detail.PostDetailActivity
 import kotlinx.android.synthetic.main.fragment_posts.*
 import kotlinx.android.synthetic.main.view_recycler_view.*
 
-class PostsFragment : BaseFragment() {
+class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
     private lateinit var postsAdapter: PostsAdapter
 
@@ -27,7 +29,7 @@ class PostsFragment : BaseFragment() {
 
         super.onCreate(savedInstanceState)
 
-        postsAdapter = PostsAdapter()
+        postsAdapter = PostsAdapter(listener = this)
 
         retainInstance = true
 
@@ -101,5 +103,12 @@ class PostsFragment : BaseFragment() {
         postViewModel.getPosts(pageNumber)
 
     }
+
+    override fun onPostSelected(post: PostModel) {
+
+        startActivity(PostDetailActivity.getIntent(activity, post.postData))
+
+    }
+
 
 }

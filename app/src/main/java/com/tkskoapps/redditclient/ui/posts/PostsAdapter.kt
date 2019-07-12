@@ -11,7 +11,8 @@ import com.tkskoapps.redditclient.data.model.PostModel
 import kotlinx.android.synthetic.main.list_item_post.view.*
 
 class PostsAdapter(
-    private var items: MutableList<PostModel> = mutableListOf()
+    private var items: MutableList<PostModel> = mutableListOf(),
+    var listener: IPostsListener? = null
 ) :
     RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
 
@@ -31,6 +32,10 @@ class PostsAdapter(
         items[position].let { post ->
 
             holder.bindCardData(post.postData)
+
+            holder.itemView.list_item_post_main_layout.setOnClickListener {
+                listener?.onPostSelected(post)
+            }
 
         }
 
@@ -66,6 +71,12 @@ class PostsAdapter(
             itemView.list_item_post_read_status.visibility = View.VISIBLE
 
         }
+
+    }
+
+    interface IPostsListener {
+
+        fun onPostSelected(post: PostModel)
 
     }
 

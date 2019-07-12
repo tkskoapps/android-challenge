@@ -6,6 +6,8 @@ class AppConstants {
 
         const val POSTS_PAGE_SIZE = 10
 
+        const val INTENT_PARAM_POST = "INTENT_PARAM_POST"
+
     }
 
     class EndPoint {
