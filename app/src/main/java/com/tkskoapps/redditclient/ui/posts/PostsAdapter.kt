@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.list_item_post.view.*
 
 class PostsAdapter(
     private var items: MutableList<PostModel> = mutableListOf(),
-    var listener: IPostsListener? = null
+    var listener: IPostsListener? = null,
+    var lastItemId: String? = null
 ) :
     RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
 
@@ -41,15 +42,29 @@ class PostsAdapter(
 
     }
 
-    fun updateList(list: MutableList<PostModel>) {
+    fun updateList(list: MutableList<PostModel>, newLastItemId: String?, pageNumber: Int) {
 
         val count = items.size
 
-        items = list
+        lastItemId = newLastItemId
 
-        this.notifyItemRangeRemoved(0, count)
+        if (pageNumber == 0) {
 
-        this.notifyItemRangeInserted(0, items.size)
+            items = list
+
+            this.notifyItemRangeRemoved(0, count)
+
+            this.notifyItemRangeInserted(0, items.size)
+
+        } else {
+
+            val positionStart = items.size
+
+            items.addAll(list)
+
+            this.notifyItemRangeInserted(positionStart, list.size)
+
+        }
 
     }
 

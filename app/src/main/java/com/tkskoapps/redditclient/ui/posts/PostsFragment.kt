@@ -4,16 +4,20 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tkskoapps.redditclient.R
 import com.tkskoapps.redditclient.data.model.PostModel
 import com.tkskoapps.redditclient.ui.core.BaseFragment
 import com.tkskoapps.redditclient.ui.post_detail.PostDetailActivity
+import com.tkskoapps.redditclient.ui.utils.AppConstants
+import com.tkskoapps.redditclient.ui.utils.InfiniteOnScrollListener
 import kotlinx.android.synthetic.main.fragment_posts.*
 import kotlinx.android.synthetic.main.view_recycler_view.*
 
 class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
     private lateinit var postsAdapter: PostsAdapter
+    private lateinit var infiniteOnScrollListener: InfiniteOnScrollListener
 
     private lateinit var postViewModel: PostsViewModel
 
@@ -48,7 +52,10 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
         initView()
 
-        getPage()
+        if (savedInstanceState == null)
+            getPage()
+        else
+            setEmptyViewVisibility()
 
     }
 
@@ -62,11 +69,31 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
             getPage()
         }
 
+        infiniteOnScrollListener =
+            object : InfiniteOnScrollListener(
+                view_recycle_view_list.layoutManager as LinearLayoutManager,
+                view_recycle_view_swipe_refresh_layout,
+                null
+            ) {
+
+                override fun onLoadMore(page: Int) {
+
+                    getPage(page)
+
+                }
+
+            }
+
+        view_recycle_view_list.addOnScrollListener(infiniteOnScrollListener)
+
         postViewModel.postsList.observe(this, Observer { data ->
 
             data.getContentIfNotHandled()?.let {
 
-                postsAdapter.updateList(it.posts.toMutableList())
+                infiniteOnScrollListener.isLimitReached =
+                    it.posts.isNullOrEmpty() || it.posts.size < AppConstants.POSTS_PAGE_SIZE
+
+                postsAdapter.updateList(it.posts.toMutableList(), it.lastItemId, it.pageNumber)
 
                 setEmptyViewVisibility()
 
@@ -77,7 +104,10 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
         postViewModel.loading.observe(this, Observer { data ->
 
             data.getContentIfNotHandled()?.let { loading ->
+
                 view_recycle_view_swipe_refresh_layout.isRefreshing = loading
+                infiniteOnScrollListener.isLoading = loading
+
             }
 
         })
@@ -100,7 +130,12 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
     private fun getPage(pageNumber: Int = 0) {
 
-        postViewModel.getPosts(pageNumber)
+        if (pageNumber == 0) {
+            postsAdapter.lastItemId = null
+            infiniteOnScrollListener.reset()
+        }
+
+        postViewModel.getPosts(pageNumber, postsAdapter.lastItemId)
 
     }
 

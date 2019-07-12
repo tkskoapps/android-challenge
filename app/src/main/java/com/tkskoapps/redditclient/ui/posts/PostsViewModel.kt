@@ -35,6 +35,7 @@ class PostsViewModel(private val repository: AppRepository) :
             ).subscribeWith(object :
                 DisposableSingleObserver<PostListModel>() {
                 override fun onSuccess(postsList: PostListModel) {
+                    postsList.pageNumber = pageNumber
                     _postsList.postValue(Event(postsList))
                     _loading.postValue(Event(false))
                 }

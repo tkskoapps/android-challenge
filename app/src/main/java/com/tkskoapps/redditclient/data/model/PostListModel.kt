@@ -8,5 +8,6 @@ data class PostListModel(
     @SerializedName("before")
     val before: String? = null,
     @SerializedName("children")
-    val posts: List<PostModel> = emptyList()
+    val posts: List<PostModel> = emptyList(),
+    var pageNumber: Int = 0
 )
