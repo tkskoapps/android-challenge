@@ -16,5 +16,7 @@ class PostsActivity : BaseActivity() {
 
     }
 
+    fun getViewModel() = obtainViewModel(PostsViewModel::class.java)
+
 }
 
