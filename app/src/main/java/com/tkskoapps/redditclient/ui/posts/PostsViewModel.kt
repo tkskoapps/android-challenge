@@ -17,6 +17,10 @@ class PostsViewModel(private val repository: AppRepository) :
     val loading: LiveData<Event<Boolean>>
         get() = _loading
 
+    private var _error = MutableLiveData<Event<String>>()
+    val error: LiveData<Event<String>>
+        get() = _error
+
     private var _postsList = MutableLiveData<Event<PostListModel>>()
     val postsList: LiveData<Event<PostListModel>>
         get() = _postsList
@@ -40,13 +44,21 @@ class PostsViewModel(private val repository: AppRepository) :
             ).subscribeWith(object :
                 DisposableSingleObserver<PostListModel>() {
                 override fun onSuccess(postsList: PostListModel) {
+
                     postsList.pageNumber = pageNumber
+
                     _postsList.postValue(Event(postsList))
+
                     _loading.postValue(Event(false))
+
                 }
 
                 override fun onError(e: Throwable) {
+
+                    _error.postValue(Event(e.localizedMessage))
+
                     _loading.postValue(Event(false))
+
                 }
             })
         )

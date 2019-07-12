@@ -3,6 +3,7 @@ package com.tkskoapps.redditclient.ui.posts
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tkskoapps.redditclient.R
@@ -109,6 +110,13 @@ class PostsFragment : BaseFragment(), PostsAdapter.IPostsListener {
 
             }
 
+        })
+
+        postViewModel.error.observe(this, Observer { data ->
+            data.getContentIfNotHandled()?.let { errorMessage ->
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
+                setEmptyViewVisibility()
+            }
         })
 
         view_recycle_view_button_reload.setOnClickListener {
