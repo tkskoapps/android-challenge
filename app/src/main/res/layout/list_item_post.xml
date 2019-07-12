@@ -42,13 +42,15 @@
                 android:ellipsize="end"
                 android:layout_margin="10dp"
                 tools:text="Title"
-                android:maxLines="5"
                 app:layout_constraintTop_toTopOf="@+id/list_item_post_card_thumbnail"
                 app:layout_constraintStart_toEndOf="@+id/list_item_post_card_thumbnail"
                 app:layout_constraintEnd_toStartOf="@+id/list_item_post_read_status"
                 app:layout_constraintBottom_toBottomOf="@+id/list_item_post_card_thumbnail"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeStepGranularity="1sp"
                 android:textStyle="bold"/>
 
         <ImageView
