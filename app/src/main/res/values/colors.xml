@@ -12,4 +12,6 @@
 
     <color name="red">#d9534f</color>
 
+    <color name="post_divider">#CCCCCC</color>
+
 </resources>
