@@ -9,6 +9,7 @@ buildscript {
         kotlin_ext_version = '1.0.2'
 
         appcompat_version = '1.0.2'
+        material_version = '1.0.0'
 
         rxjava_version = '2.2.7'
         rx_android_version = '2.1.1'

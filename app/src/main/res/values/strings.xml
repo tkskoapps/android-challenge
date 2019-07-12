@@ -1,3 +1,11 @@
 <resources>
+
     <string name="app_name">Reddit Client</string>
+
+    <string name="msg_empty">No data to show.</string>
+
+    <string name="btn_remove_all">Remove All Posts</string>
+
+    <string name="btn_reload_list">Reload</string>
+
 </resources>
