@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.tkskoapps.redditclient.R
 import com.tkskoapps.redditclient.data.model.PostModel
 import kotlinx.android.synthetic.main.list_item_post.view.*
@@ -105,7 +106,7 @@ class PostsAdapter(
 
                 itemView.list_item_post_author.text = postData.author
 
-                itemView.list_item_post_time_ago.text = "TODO"
+                itemView.list_item_post_time_ago.text = TimeAgo.using(postData.createdDate * 1000)
 
                 itemView.list_item_post_comments_count.text = postData.commentsCount.toString()
 
